@@ -1,0 +1,21 @@
+{
+  "name": "leg",
+  "version": "0.0.0",
+  "description": "lig leg log",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/deoxxa/leg.git"
+  },
+  "keywords": [
+    "log",
+    "json",
+    "simple",
+    "lightweight",
+    "small",
+    "light"
+  ],
+  "author": "Conrad Pankoff <deoxxa@fknsrs.biz> (http://www.fknsrs.biz/)",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
