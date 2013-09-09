@@ -17,3 +17,6 @@ log.debug("some debugging info", {someMetric: 12345});
 // hey look, our own level definition
 log.silly = log.bind(log, "SILLY");
 log.silly("yippee", {woo: "hoo"});
+
+// namespaces!
+log.namespace("first").namespace("second").info("UH OH", {a: "problem", happened: true});
