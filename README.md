@@ -6,8 +6,9 @@ logs of json
 Overview
 --------
 
-leg is a stupidly simple JSON-based logging thingy. It works the way I want it
-to, and you might also garner some utility from it. If not, that's fine.
+leg! leg because lel! leg is a stupidly simple JSON-based logging thingy. It 
+works the way I want it to, and you might also garner some utility from it.
+If not, that's fine.
 
 Super Quickstart
 ----------------
