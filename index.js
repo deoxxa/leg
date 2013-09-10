@@ -2,24 +2,7 @@ module.exports = function leg(stream) {
   stream = stream || process.stderr;
 
   var _log = function _log(level, summary, info) {
-    info = this.namespace.slice().reverse().reduce(function(i, v) {
-      var o = {};
-
-      o[v] = i || null;
-
-      return o;
-    }, info);
-
-    summary = [summary].concat(this.namespace.slice().reverse().map(function(e) {
-      return "[" + e + "]";
-    })).join(" ");
-
-    stream.write(JSON.stringify([
-      (new Date()).toISOString(),
-      level.toUpperCase(),
-      summary,
-      info,
-    ]) + "\n");
+    stream.write(JSON.stringify([new Date(), level.toUpperCase(), summary, info]) + "\n");
   };
 
   ["debug", "info", "warn", "error"].forEach(function(level) {
@@ -35,8 +18,18 @@ module.exports = function leg(stream) {
       },
     });
 
-    var log = function log() {
-      return _log.apply(ctx, arguments);
+    var _summary = ctx.namespace.slice().reverse().map(function(e) {
+      return "[" + e + "]";
+    });
+
+    var body = ctx.namespace.slice().reverse().reduce(function(i, v) {
+      return "{\"" + v.replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\":" + i + "}";
+    }, "e");
+
+    var _transform = new Function("e", "return " + body + ";");
+
+    var log = function log(level, summary, info) {
+      return _log(level, [summary].concat(_summary).join(" "), _transform(info));
     };
 
     log.__proto__ = _log;
