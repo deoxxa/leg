@@ -1,11 +1,15 @@
-module.exports = function leg(stream) {
+module.exports = function leg(stream, loglevel) {
   stream = stream || process.stderr;
+  loglevel = loglevel || process.env.LOG_LEVEL;
+
+  levels = ["trace", "debug", "info", "warn", "error", "fatal"];
+  min_level = levels.indexOf(loglevel);
 
   var _log = function _log(level, summary, info) {
     stream.write(JSON.stringify([new Date(), level.toUpperCase(), summary, info]) + "\n");
   };
 
-  ["debug", "info", "warn", "error"].forEach(function(level) {
+  levels.forEach(function(level) {
     _log[level] = function() {
       return this.apply(this, [level].concat([].slice.call(arguments)));
     };
@@ -29,7 +33,8 @@ module.exports = function leg(stream) {
     var _transform = new Function("e", "return " + body + ";");
 
     var log = function log(level, summary, info) {
-      return _log(level, [summary].concat(_summary).join(" "), _transform(info));
+      l = levels.indexOf(level);
+      if (min_level <= l || l === -1) return _log(level, [summary].concat(_summary).join(" "), _transform(info));
     };
 
     log.__proto__ = _log;
