@@ -44,7 +44,7 @@ output to as an argument. By default, will use `process.stderr`. The return
 value is a function that you can use to log things!
 
 ```javascript
-leg([stream]);
+leg([stream], [options]);
 ```
 
 ```javascript
@@ -53,6 +53,9 @@ var log = leg();
 
 // instantiate with different output
 var log = log(process.stdout);
+
+// instantiate with options
+var log = log(null, {object: true});
 ```
 
 **log**

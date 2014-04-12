@@ -1,9 +1,26 @@
-module.exports = function leg(stream) {
+module.exports = function leg(stream, options) {
   stream = stream || process.stderr;
+  options = options || {};
 
-  var _log = function _log(level, summary, info) {
-    stream.write(JSON.stringify([new Date(), level.toUpperCase(), summary, info]) + "\n");
-  };
+  if (options.object) {
+    _log = function _log(level, summary, info) {
+      stream.write(JSON.stringify({
+        time: new Date(),
+        level: level.toUpperCase(),
+        summary: summary,
+        info: info,
+      }) + "\n");
+    };
+  } else {
+    var _log = function _log(level, summary, info) {
+      stream.write(JSON.stringify([
+        new Date(),
+        level.toUpperCase(),
+        summary,
+        info,
+      ]) + "\n");
+    };
+  }
 
   ["debug", "info", "warn", "error"].forEach(function(level) {
     _log[level] = function() {
